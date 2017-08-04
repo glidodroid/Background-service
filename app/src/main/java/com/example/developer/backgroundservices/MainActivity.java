@@ -6,10 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.birbit.android.jobqueue.JobManager;
+import com.example.developer.backgroundservices.job.SampleJob;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView textView;
     private Handler handler;
+    JobManager jobManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +21,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         textView = (TextView) findViewById(R.id.text_hello);
         handler = new Handler();// this handler got ui-thread looper.
+        jobManager = BackgroundServicesApp.getInstance().getJobManager();
+        doJob();
+        doJob();
+        doJob();
+        doJob();
+        doJob();
         //doLongOperation();
-        doVeryLongOperation();
+        //doVeryLongOperation();
+    }
+
+    private void doJob() {
+        jobManager.addJobInBackground(new SampleJob("sample"));
     }
 
     private void doLongOperation() {
